@@ -12,13 +12,17 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   green();
-  delay(500);
+  delay(200);
   cyan();
-  delay(500);
-  yellow();
-  delay(500);
+  delay(200);
+  blue();
+  delay(200);
   magenta();
-  delay(500);
+  delay(200);
+  red();
+  delay(200);
+  yellow();
+  delay(200);
 }
 
 void RGB(uint8_t r, uint8_t g, uint8_t b) {
@@ -30,11 +34,14 @@ void RGB(uint8_t r, uint8_t g, uint8_t b) {
 void green() {
   RGB(LOW, HIGH, LOW);
 }
+void blue() {
+  RGB(LOW, LOW, HIGH);
+}
+void red() {
+  RGB(HIGH, LOW, LOW);
+}
 void cyan() {
   RGB(LOW, HIGH, HIGH);
-}
-void blue() {
-  RGB(LOW, LOW, LOW);
 }
 void magenta() {
   RGB(HIGH, LOW, HIGH);
