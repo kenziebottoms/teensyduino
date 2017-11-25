@@ -7,46 +7,51 @@ void setup() {
   pinMode(RED, OUTPUT);
   pinMode(GREEN, OUTPUT);
   pinMode(BLUE, OUTPUT);
+  pinMode(7, INPUT);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  green();
-  delay(200);
-  cyan();
-  delay(200);
-  blue();
-  delay(200);
-  magenta();
-  delay(200);
-  red();
-  delay(200);
-  yellow();
-  delay(200);
+  if (digitalRead(7) == LOW) {
+    rgb(HIGH, HIGH, HIGH);
+  } else {
+    green();
+    delay(200);
+    cyan();
+    delay(200);
+    blue();
+    delay(200);
+    magenta();
+    delay(200);
+    red();
+    delay(200);
+    yellow();
+    delay(200);
+  }
 }
 
-void RGB(uint8_t r, uint8_t g, uint8_t b) {
+void rgb(uint8_t r, uint8_t g, uint8_t b) {
   digitalWrite(RED, r);
   digitalWrite(GREEN, g);
   digitalWrite(BLUE, b);
 }
 
 void green() {
-  RGB(LOW, HIGH, LOW);
+  rgb(LOW, HIGH, LOW);
 }
 void blue() {
-  RGB(LOW, LOW, HIGH);
+  rgb(LOW, LOW, HIGH);
 }
 void red() {
-  RGB(HIGH, LOW, LOW);
+  rgb(HIGH, LOW, LOW);
 }
 void cyan() {
-  RGB(LOW, HIGH, HIGH);
+  rgb(LOW, HIGH, HIGH);
 }
 void magenta() {
-  RGB(HIGH, LOW, HIGH);
+  rgb(HIGH, LOW, HIGH);
 }
 void yellow() {
-  RGB(HIGH, HIGH, LOW);
+  rgb(HIGH, HIGH, LOW);
 }
 

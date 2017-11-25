@@ -11,3 +11,7 @@ Added a function that takes three `LOW` or `HIGH` values as parameters for the r
 The RGB LED connected to the breadboard flashes green for half a second, cyan for half a second, yellow for half a second, and then magenta for half a second, before looping indefinitely.
 
 [See video on Instagram.](https://www.instagram.com/p/Bb7tOeYAvTN/?taken-by=kenziebottoms)
+
+### Added pushbutton.
+
+If user pushes button, the rainbow cycle finishes out and the light turns white.
