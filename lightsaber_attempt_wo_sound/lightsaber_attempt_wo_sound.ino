@@ -16,6 +16,7 @@ Adafruit_DotStar strip = Adafruit_DotStar(
 #define CYAN    0xFF00FF
 #define YELLOW  0xFFFF00
 #define MAGENTA 0x00FFFF
+#define BLACK   0x000000
 // END COLOR VARS ----------- ||
 
 // END LED VARS --------------------------------------- ||
@@ -26,21 +27,45 @@ void setup() {
     clock_prescale_set(clock_div_1); // Enable 16 MHz on Trinket
   #endif
 
+  Serial.begin(38400);
+  pinMode(7, INPUT);
+
   strip.begin(); // Initialize pins for output
   strip.show();  // Turn all LEDs off ASAP
 }
 
+uint32_t currentColor = RED;
+boolean activated = false;
 
 void loop() {
-  delay(500);
-  powerUp(MAGENTA);
+  if (digitalRead(7) == LOW) {
+    power();
+    delay(100);
+  }
 }
 
-void powerUp(uint32_t color) {
-  for (int i=0; i<NUMPIXELS; i++) {
-    strip.setPixelColor(i, color);
+void power() {
+  if (activated) {
+    powerDown();
+  } else {
+    powerUp();
+  }
+}
+
+void powerUp() {
+  for (int i=0; i<=NUMPIXELS; i++) {
+    strip.setPixelColor(i, currentColor);
     strip.show();
     delay(5);
   }
+  activated = true;
+}
+void powerDown() {
+  for (int i=NUMPIXELS; i>=0; i--) {
+    strip.setPixelColor(i, BLACK);
+    strip.show();
+    delay(5); 
+  }
+  activated = false;
 }
 
