@@ -1,13 +1,15 @@
 #include <Adafruit_DotStar.h>
 #include <SPI.h>
+#include "FastLED.h"
 
 // LED VARS ------------------------------------------- ||
 
-#define NUMPIXELS 30 // Number of LEDs in strip
-#define DATAPIN    11
-#define CLOCKPIN   13
+#define NUM_LEDS 33 // Number of LEDs in strip
+#define DATA_PIN    11
+#define CLOCK_PIN   13
 Adafruit_DotStar strip = Adafruit_DotStar(
-  NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
+  NUM_LEDS, DATA_PIN, CLOCK_PIN, DOTSTAR_BRG);
+CRGB leds[NUM_LEDS];
 
 // COLOR VARS --------------- ||
 #define BLUE    0x0000FF
@@ -23,18 +25,17 @@ Adafruit_DotStar strip = Adafruit_DotStar(
 
 void setup() {
 
-  #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000L)
-    clock_prescale_set(clock_div_1); // Enable 16 MHz on Trinket
-  #endif
-
-  Serial.begin(38400);
   pinMode(7, INPUT);
 
-  strip.begin(); // Initialize pins for output
-  strip.show();  // Turn all LEDs off ASAP
+  FastLED.addLeds<DOTSTAR, DATA_PIN, CLOCK_PIN, BGR>(leds, NUM_LEDS);
+
+  bladeOff();
+
+//  strip.begin(); // Initialize pins for output
+//  strip.show();  // Turn all LEDs off ASAP
 }
 
-uint32_t currentColor = RED;
+CRGB currentColor = CRGB::Cyan;
 boolean activated = false;
 
 void loop() {
@@ -53,19 +54,25 @@ void power() {
 }
 
 void powerUp() {
-  for (int i=0; i<=NUMPIXELS; i++) {
-    strip.setPixelColor(i, currentColor);
-    strip.show();
+  for (int i=0; i<NUM_LEDS; i++) {
+    leds[i] = currentColor;
+    FastLED.show();
     delay(5);
   }
   activated = true;
 }
 void powerDown() {
-  for (int i=NUMPIXELS; i>=0; i--) {
-    strip.setPixelColor(i, BLACK);
-    strip.show();
+  for (int i=NUM_LEDS; i>=0; i--) {
+    leds[i] = CRGB::Black;
+    FastLED.show();
     delay(5); 
   }
   activated = false;
+}
+void bladeOff() {
+  for (int i=0; i<NUM_LEDS; i++) {
+    leds[i] = CRGB::Black;
+  }
+  FastLED.show();
 }
 
